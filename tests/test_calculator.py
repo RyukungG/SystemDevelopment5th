@@ -3,6 +3,7 @@ Test suite for the Calculator class.
 """
 
 import pytest
+import re
 from calculator.calculator import Calculator, InvalidInputException
 
 def calc():
@@ -134,9 +135,20 @@ class TestAddition:
         b = 1000000
 
         # Act
-        # Assert
-        with pytest.raises(InvalidInputException):
+        # Assert    
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().add(a, b)
+            
+    def test_add_one_number(self):
+        """Test adding one number outside valid range."""
+        # Arrange
+        a = 1
+
+        # Act
+        # Assert
+        with pytest.raises(TypeError):
+            calc().add(a)
+
     
     def test_add_small_numbers(self):
         """Test adding small numbers."""
@@ -146,7 +158,7 @@ class TestAddition:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().add(a, b)
 
     def test_add_large_and_small_numbers(self):
@@ -157,7 +169,7 @@ class TestAddition:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().add(a, b)
     
     def test_add_zero_and_large_number(self):
@@ -168,7 +180,7 @@ class TestAddition:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {b} is outside the valid range (-1000000 to 1000000)")):
             calc().add(a, b)    
     
     def test_million_plus_large(self):
@@ -179,7 +191,7 @@ class TestAddition:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().add(a, b)
 
     def test_minus_million_plus_small(self):
@@ -190,7 +202,18 @@ class TestAddition:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
+            calc().add(a, b)
+    
+    def test_add_none_input(self):
+        """Test adding None as input."""
+        # Arrange
+        a = None
+        b = 5
+
+        # Act
+        # Assert
+        with pytest.raises(InvalidInputException, match=r"\bInput cannot be None\b"):
             calc().add(a, b)
 
 class TestSubtraction:
@@ -296,7 +319,7 @@ class TestSubtraction:
         
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().subtract(a, b)
 
     def test_subtract_small_numbers(self):
@@ -307,7 +330,7 @@ class TestSubtraction:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().subtract(a, b)
     
     def test_subtract_large_and_small_numbers(self):
@@ -318,7 +341,7 @@ class TestSubtraction:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().subtract(a, b)
     
     def test_subtract_zero_and_large_number(self):
@@ -329,7 +352,7 @@ class TestSubtraction:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {b} is outside the valid range (-1000000 to 1000000)")):
             calc().subtract(a, b)
 
 class TestMultiplication:
@@ -421,7 +444,7 @@ class TestMultiplication:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().multiply(a, b)
 
     def test_multiply_small_numbers(self):
@@ -432,7 +455,7 @@ class TestMultiplication:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().multiply(a, b)
     
     def test_multiply_large_and_small_numbers(self):
@@ -443,7 +466,7 @@ class TestMultiplication:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().multiply(a, b)
 
     def test_multiply_by_large_number(self):
@@ -454,7 +477,7 @@ class TestMultiplication:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {b} is outside the valid range (-1000000 to 1000000)")):
             calc().multiply(a, b)
 
 
@@ -533,7 +556,7 @@ class TestDivision:
         b = 0
 
         # Act & Assert
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=r"\bCannot divide by zero\b"):
             calc().divide(a, b)
         
     def test_divide_zero_by_number(self):
@@ -557,7 +580,7 @@ class TestDivision:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().divide(a, b)
 
     def test_divide_small_numbers(self):
@@ -568,7 +591,7 @@ class TestDivision:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().divide(a, b)
 
     def test_divide_large_and_small_numbers(self):
@@ -579,7 +602,7 @@ class TestDivision:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {a} is outside the valid range (-1000000 to 1000000)")):
             calc().divide(a, b)
 
     def test_divide_by_large_number(self):
@@ -590,7 +613,7 @@ class TestDivision:
 
         # Act
         # Assert
-        with pytest.raises(InvalidInputException):
+        with pytest.raises(InvalidInputException, match=re.escape(f"Input {b} is outside the valid range (-1000000 to 1000000)")):
             calc().divide(a, b)
 
 

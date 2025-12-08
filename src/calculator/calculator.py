@@ -8,9 +8,11 @@ class InvalidInputException(Exception):
     MAX_VALUE = 1000000
     MIN_VALUE = -1000000
 
-    def _validate(self, *values):
+    def _validate(self, values):
         for value in values:
-            if (self.MIN_VALUE >= value) or (value >= self.MAX_VALUE):
+            if value is None:
+                raise InvalidInputException("Input cannot be None")
+            if (self.MIN_VALUE >= value) or (value >= self.MAX_VALUE) or (not isinstance(value, (int, float))):
                 raise InvalidInputException(
                     f"Input {value} is outside the valid range "
                     f"({self.MIN_VALUE} to {self.MAX_VALUE})"
@@ -36,9 +38,7 @@ class Calculator:
         Raises:
             InvalidInputException: If any input is outside valid range
         """
-        self._validate(a, b)
-        self._validate(a)
-        self._validate(b)
+        self._validate([a, b])
         return a + b
 
     def subtract(self, a, b):
@@ -54,9 +54,7 @@ class Calculator:
         Raises:
             InvalidInputException: If any input is outside valid range
         """
-        self._validate(a, b)
-        self._validate(a)
-        self._validate(b)
+        self._validate([a, b])
         return a - b
 
     def multiply(self, a, b):
@@ -72,9 +70,7 @@ class Calculator:
         Raises:
             InvalidInputException: If any input is outside valid range
         """
-        self._validate(a, b)
-        self._validate(a)
-        self._validate(b)
+        self._validate([a, b])
         return a * b
 
     def divide(self, a, b):
@@ -93,9 +89,7 @@ class Calculator:
         """
         if b == 0:
             raise ValueError("Cannot divide by zero")
-        self._validate(a, b)
-        self._validate(a)
-        self._validate(b)
+        self._validate([a, b])
         return a / b
 
 
