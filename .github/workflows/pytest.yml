@@ -34,7 +34,7 @@ jobs:
           name: coverage-report-${{ matrix.python-version }}
           path: htmlcov/
 
-        -name: Coverage summary
+      - name: Coverage summary
         if: matrix.python-version == '3.9'
         run: |
           echo "## Coverage summary" >> $GITHUB_STEP_SUMMARY
