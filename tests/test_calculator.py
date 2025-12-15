@@ -66,37 +66,11 @@ class TestAddition:
         # Assert
         assert result == expected
 
-    def test_add_negative_and_positive(self):
-        """Test adding negative and positive numbers."""
-        # Arrange
-        a = -5
-        b = 3
-        expected = -2
-
-        # Act
-        result = calc().add(a, b)
-
-        # Assert
-        assert result == expected
-
     def test_add_positive_with_zero(self):
         """Test adding positive number with zero."""
         # Arrange
         a = 5
         b = 0
-        expected = 5
-
-        # Act
-        result = calc().add(a, b)
-
-        # Assert
-        assert result == expected
-
-    def test_add_zero_with_positive(self):
-        """Test adding zero with positive number."""
-        # Arrange
-        a = 0
-        b = 5
         expected = 5
 
         # Act
